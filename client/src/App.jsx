@@ -8,13 +8,11 @@ import ProductList from './components/ProductList';
 import Cart from './components/Cart';
 import AuthPage from './pages/AuthPage';
 import LoginButton from './components/LoginButton'; // Re-import LoginButton
-import AIChatPopup from './components/AIChatPopup';
 import { ThemeContext } from './context/ThemeContext';
 
 function App() {
   const theme = useTheme();
   const { toggleTheme } = useContext(ThemeContext);
-  const [openAI, setOpenAI] = useState(false); // State for AI chat popup
   const [userInfoPopupOpen, setUserInfoPopupOpen] = useState(false); // State for UserInfoPopup
   const [user, setUser] = useState({ name: 'User Name', email: 'user@example.com' }); // Example user data
   const [orderHistory, setOrderHistory] = useState([]); // Example order history
@@ -53,15 +51,6 @@ function App() {
         </IconButton>
         <LoginButton /> {/* Re-add LoginButton */}
         
-        {/* AI Assistant Button */}
-        <Button 
-          variant="contained" 
-          size="small" // Set button size to small
-          onClick={() => setOpenAI(true)}
-          sx={{ position: 'absolute', top: 16, right: 80 }}
-        >
-          AI Помощник
-        </Button>
 
         {/* Profile Button */}
         <Button 
@@ -73,10 +62,7 @@ function App() {
           Профиль {/* Updated button text */}
         </Button>
         
-        <AIChatPopup
-          open={openAI} 
-          onClose={() => setOpenAI(false)}
-        />
+
         
         <Routes>
           <Route path="/" element={

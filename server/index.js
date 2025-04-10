@@ -1,5 +1,6 @@
 const path = require('path');
-const envPath = path.join(__dirname, '..', '.env');
+const envPath = path.join(__dirname, '.env');
+
 console.log('Loading .env from:', envPath);
 require('dotenv').config({ path: envPath });
 const express = require('express');
@@ -26,6 +27,18 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD || '12345',
   port: process.env.DB_PORT || 5433,
 });
+
+// Test database connection on startup
+pool.connect()
+  .then(client => {
+    console.log('Successfully connected to PostgreSQL database');
+    client.release();
+  })
+  .catch(err => {
+    console.error('Failed to connect to PostgreSQL database:', err);
+    process.exit(1);
+  });
+
 
 pool.on('error', (err) => {
   console.error('Unexpected database error:', err);
@@ -134,96 +147,6 @@ app.post('/auth/login', async (req, res) => {
   }
 });
 
-// Ollama Status Check Endpoint
-app.get('/api/ai/status', async (req, res) => {
-  try {
-    const response = await axios.get(`${process.env.OLLAMA_HOST || 'http://localhost:11434'}`, {
-      timeout: 2000,
-      headers: { 'Content-Type': 'application/json' }
-    });
-    res.json({ 
-      status: 'online',
-      version: response.data?.version || 'unknown'
-    });
-  } catch (error) {
-    res.status(503).json({ 
-      status: 'offline',
-      error: 'Ollama service is not running',
-      details: error.message
-    });
-  }
-});
-
-// AI Chat Endpoint (Ollama)
-app.post('/api/ai/chat', async (req, res) => {
-  try {
-    const { message, conversation = [] } = req.body;
-    const model = process.env.OLLAMA_MODEL || 'llama2';
-    
-    // Check Ollama availability first
-    try {
-      await axios.get(`${process.env.OLLAMA_HOST || 'http://localhost:11434'}`, {
-        timeout: 1000
-      });
-    } catch (error) {
-      return res.status(503).json({
-        error: 'Ollama service unavailable',
-        solution: 'Please ensure Ollama is running with `ollama serve`'
-      });
-    }
-
-    // Format messages in new chat format
-    const messages = [
-      { 
-        role: 'system', 
-        content: 'Ты ассистент, который отвечает только на русском языке. Все ответы должны быть на русском.' 
-      },
-      ...conversation.slice(-6).map(msg => ({
-        role: msg.sender === 'user' ? 'user' : 'assistant',
-        content: msg.text
-      })),
-      { role: 'user', content: message }
-    ];
-
-    // Make the chat request
-    const response = await axios.post(
-      `${process.env.OLLAMA_HOST || 'http://localhost:11434'}/api/chat`,
-      {
-        model: process.env.OLLAMA_MODEL || 'llama2',
-        messages,
-        stream: false,
-        options: { 
-          temperature: 0.7,
-          num_ctx: 2048
-        }
-      },
-      { 
-        timeout: 15000,
-        headers: { 'Content-Type': 'application/json' }
-      }
-    );
-
-    if (!response.data?.message?.content) {
-      throw new Error('Invalid response format from Ollama');
-    }
-
-    return res.json({
-      reply: response.data.message.content
-    });
-  } catch (error) {
-    console.error('AI Service Error:', {
-      message: error.message,
-      stack: error.stack,
-      response: error.response?.data
-    });
-    
-    return res.status(500).json({ 
-      error: 'AI service error',
-      details: error.response?.data || error.message 
-    });
-  }
-});
-
 app.post('/api/orders', async (req, res) => {
   try {
     const { user_id, user_email, products, phone_number, delivery_method, address } = req.body;
@@ -247,12 +170,22 @@ app.post('/api/orders', async (req, res) => {
 app.get('/api/products', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM products');
+    if (result.rows.length === 0) {
+      console.warn('Products table is empty');
+    }
     res.json(result.rows);
   } catch (err) {
     console.error('Error fetching products:', err);
-    res.status(500).json({ error: 'Failed to fetch products' });
+    if (err.code === '42P01') { // Relation does not exist error
+      console.error('The "products" table does not exist in the database');
+    }
+    res.status(500).json({ 
+      error: 'Failed to fetch products',
+      details: err.message 
+    });
   }
 });
+
 
 app.get('/api/test-products', async (req, res) => {
   try {
@@ -263,12 +196,22 @@ app.get('/api/test-products', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch products' });
   }
 });
-// Initialize DB and start server
-initDB().then(() => {
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    console.log(`Ollama configured to: ${process.env.OLLAMA_HOST || 'http://localhost:11434'}`);
-    console.log(`Using model: ${process.env.OLLAMA_MODEL || 'llama2'}`);
-  });
+
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log(`API endpoints available at http://localhost:${PORT}/api`);
+}).on('error', (err) => {
+  console.error('Server failed to start:', err);
+});
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+});
+
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (err) => {
+  console.error('Unhandled Rejection:', err);
 });
