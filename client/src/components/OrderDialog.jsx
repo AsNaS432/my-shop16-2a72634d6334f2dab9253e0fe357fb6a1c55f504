@@ -105,7 +105,15 @@ const OrderDialog = ({ open, onClose, cartItems }) => {
     return cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   };
 
-  const handleSubmit = async () => {
+const handleSubmit = async () => {
+    if (!validateForm()) return;
+
+    if (!user) {
+        setFormErrors({
+            submit: 'Пожалуйста, войдите в систему для оформления заказа.'
+        });
+        return;
+    }
     if (!validateForm()) return;
     
     setIsSubmitting(true);
