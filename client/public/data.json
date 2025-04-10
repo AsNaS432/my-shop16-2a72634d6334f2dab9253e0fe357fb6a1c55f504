@@ -1,0 +1,86 @@
+{
+    "products": [
+    {
+    "id": 1,
+    "title": "Матрица в сборе для MacBook Air 13",
+    "price": 20500,
+    "description": "Дисплей Retina (LCD Экран) в сборе с верхней крышкой на MacBook Air 13 M1 A2337 (Late 2020)",
+    "image": "https://mosbro.ru/upload/resize_cache/iblock/cf8/500_500_1/yencir7gawrt767qif5bikfwhdpj2obq.jpg",
+    "category": "laptops",
+    "rating": 4.7
+    },
+    {
+    "id": 2,
+    "title": "TopCase (RUS) (в разборе) для MacBook Pro 16 A2141",
+    "price": 10000,
+    "description": "Топкейс - алюминиевый корпус с клавиатурой (RUS - Вертикальный Г-образный ENTER) и подсветкой для MacBook Pro 16 A2141",
+    "image": "https://mosbro.ru/upload/resize_cache/iblock/ae9/500_500_1/li7ujbk2dj519d6h7jb9wukwchd9wt3t.png",
+    "category": "laptops",
+    "rating": 4.8
+    },
+    {
+    "id": 3,
+    "title": "Аккумулятор A2113 для Macbook Pro 16 A2141 (OEM)",
+    "price": 7500,
+    "description": "Новая аккумуляторная батарея A2113 (Mid 2019 - Late 2020) для Macbook Pro 16 A2141",
+    "image": "https://mosbro.ru/upload/resize_cache/iblock/466/500_500_1/e696xohgcjwyv313sbmeu35e1gz44m5b.png",
+    "category": "laptops",
+    "rating": 4.9
+    },
+    {
+    "id": 4,
+    "title": "Аккумулятор для iPhone 16 Pro Max ",
+    "price": 6000,
+    "description": "Новая оригинальная аккумуляторная батарея на iPhone 16 Pro Max (2024)",
+    "image": "https://mosbro.ru/upload/resize_cache/iblock/9eb/500_500_1/jni6gp7o3gcrh32stvs6tb6kl0n24mzq.png",
+    "category": "phones",
+    "rating": 4.6
+    },
+    {
+    "id": 5,
+    "title": "Дисплей в сборе с тачскрином для iPhone 16 Pro Max ",
+    "price": 42000,
+    "description": "Дисплей в сборе c тачскрином на iPhone 15 Pro Max (2024)",
+    "image": "https://mosbro.ru/upload/resize_cache/iblock/2d7/500_500_1/hz5hmv8gxcwiq1cze3o4ewcy93q83fot.png",
+    "category": "phones",
+    "rating": 4.8
+    },
+    {
+    "id": 6,
+    "title": "Камера основная (Задняя) для iPhone 16 Pro",
+    "price": 11000,
+    "description": "Камера основная (Задняя) для iPhone 16 Pro Max (2024) A3084 A3295 A3297 A3296",
+    "image": "https://mosbro.ru/upload/resize_cache/iblock/5c9/500_500_1/a0oyhv9hcfbtsdwswmvpz7qphmbc5gas.png",
+    "category": "phones",
+    "rating": 4.9
+    },
+    {
+    "id": 7,
+    "title": "Материнская плата для iPad Pro 11",
+    "price": 40000,
+    "description": "A1980 /A2013 /A1934 /A1979 / A2228 /A2068 /A2230 /A2231",
+    "image": "https://mosbro.ru/upload/resize_cache/iblock/082/500_500_1/q8ckpgsre7xpzoim5bbrcq9elkprvoqy.jpg",
+    "category": "tablets",
+    "rating": 4.7
+    },
+    {
+    "id": 8,
+    "title": "Дисплей в сборе с сенсорным стеклом (тачскрин) для iPad Pro 12.9 ",
+    "price": 25000,
+    "description": "Дисплей в сборе с сенсорным стеклом (тачскрин) на iPad Pro 12.9 A1876 /A2014 /A1895 /A1983 / A2229 /A2069 /A2232 /A2233",
+    "image": "https://mosbro.ru/upload/resize_cache/iblock/a3c/500_500_1/e6efco3sj4f9am02hrllu7v9aa0pbbuw.jpg",
+    "category": "tablets",
+    "rating": 4.8
+    },
+    {
+    "id": 9,
+    "title": "Аккумулятор (A2043) для iPad Pro 12.9 (2018 / 2020) 3 Gen",
+    "price": 9000,
+    "description": "Новая аккумуляторная батарея на iPad Pro 12.9 (2018",
+    "image": "https://mosbro.ru/upload/resize_cache/iblock/7e4/500_500_1/cicl4rlf68llrhegnds5r2adyyp9f9as.jpg",
+    "category": "tablets",
+    "rating": 4.7
+    }
+    ]
+   }
+   
