@@ -1,9 +1,0 @@
-flask
-flask_cors
-pandas
-langchain
-langchain_community
-langchain_gigachat
-chromadb
-langchain_ollama
-langchain_chroma
